@@ -40,7 +40,7 @@ LL_VTABLE_HOOK(
 }
 
 LL_VTABLE_HOOK(
-    HoverRenderer_renderHoverBox,
+    MinecraftUIRenderContext_drawText,
     "24MinecraftUIRenderContext",
     6,
     void,
@@ -54,7 +54,7 @@ LL_VTABLE_HOOK(
     const TextMeasureData& tmd,
     const CaretMeasureData& cmd
 ) {
-    HoverRenderer_renderHoverBox_hook(self, font, rect, text, color, align, alpha, tmd, cmd);
+    MinecraftUIRenderContext_drawText_hook(self, font, rect, text, color, align, alpha, tmd, cmd);
     origin(self, font, rect, text, color, align, alpha, tmd, cmd);
 }
 
