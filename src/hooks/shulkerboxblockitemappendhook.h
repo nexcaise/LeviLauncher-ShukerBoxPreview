@@ -3,8 +3,8 @@
 #include "shulkerenderer/colors.h"
 #include "item/itemstackbase.h"
 #include "util/scache.h"
-#include "util/config.h"
-#include "util/modmenu.h"
+//#include "util/config.h"
+//#include "util/modmenu.h"
 #include "nbt/nbt.h"
 #include <string>
 
