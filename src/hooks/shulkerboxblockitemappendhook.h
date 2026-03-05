@@ -10,9 +10,9 @@
 
 class ShulkerBoxBlockItem;
 
-using Shulker_appendHover_t = void (*)(void*, ItemStackBase*, void*, std::string&, bool);
+//using Shulker_appendHover_t = void (*)(void*, ItemStackBase*, void*, std::string&, bool);
 
-inline Shulker_appendHover_t ShulkerBoxBlockItem_appendFormattedHovertext_orig = nullptr;
+//inline Shulker_appendHover_t ShulkerBoxBlockItem_appendFormattedHovertext_orig = nullptr;
 
 inline uint16_t Item_getId_direct(Item* item){
     return *reinterpret_cast<uint16_t*>(
@@ -27,10 +27,10 @@ inline void ShulkerBoxBlockItem_appendFormattedHovertext_hook(
     std::string& out,
     bool flag)
 {
-    if (ShulkerBoxBlockItem_appendFormattedHovertext_orig)
+    /*if (ShulkerBoxBlockItem_appendFormattedHovertext_orig)
         ShulkerBoxBlockItem_appendFormattedHovertext_orig(
             self, stack, level, out, flag);
-
+*/
     if (auto pos = out.find('\n'); pos != std::string::npos)
         out.erase(pos);
 
@@ -105,9 +105,9 @@ inline void ShulkerBoxBlockItem_appendFormattedHovertext_hook(
     prefix += color;
     // prepend so renderer can see it
     out.insert(0, prefix);
-
+/*
     out += "\n§7Press §e";
     out += SP_keyCodeToString(spPreviewKey);
     out += "§7 to toggle preview";
-    out += "\xC2\xA7v";
+    out += "\xC2\xA7v";*/
 }

@@ -1,5 +1,8 @@
 #pragma once
 
+#include "api/memory/Hook.h"
+#include "api/memory/android/Memory.h"
+
 #include "hooks/shulkerboxblockitemappendhook.h"
 #include "hooks/minecraftuirendercontexthook.h"
 #include "hooks/renderhoverboxhook.h"

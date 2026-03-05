@@ -3,7 +3,8 @@
 #include <cstdio>
 #include <xmmintrin.h>
 
-#include "util/config.h"
+//#include "util/config.h"
+float spTintIntensity = 1.0f;
 
 namespace {
 constexpr int kColumns = 9;

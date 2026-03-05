@@ -9,14 +9,32 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN OFF)
 
 include(FetchContent)
 
-FetchContent_Declare(libhat
-    GIT_REPOSITORY https://github.com/BasedInc/libhat.git
-    EXCLUDE_FROM_ALL
+FetchContent_Declare(
+    fmt
+    GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+    GIT_TAG 10.2.1
 )
+FetchContent_MakeAvailable(fmt)
 
-FetchContent_Declare(safetyhook
-    GIT_REPOSITORY https://github.com/cursey/safetyhook.git
-    GIT_TAG origin/main)
+FetchContent_Declare(
+    preloader_android
+    GIT_REPOSITORY https://github.com/LiteLDev/preloader-android.git
+    GIT_TAG main
+)
+FetchContent_GetProperties(preloader_android)
+if(NOT preloader_android_POPULATED)
+    FetchContent_Populate(preloader_android)
+    
+    file(READ "${preloader_android_SOURCE_DIR}/src/pl/Logger.h" LOGGER_CONTENT)
+    string(REPLACE "#include <format>" "#include <fmt/format.h>" LOGGER_CONTENT "${LOGGER_CONTENT}")
+    string(REPLACE "std::vformat" "fmt::vformat" LOGGER_CONTENT "${LOGGER_CONTENT}")
+    string(REPLACE "std::make_format_args" "fmt::make_format_args" LOGGER_CONTENT "${LOGGER_CONTENT}")
+    file(WRITE "${preloader_android_SOURCE_DIR}/src/pl/Logger.h" "${LOGGER_CONTENT}")
+    
+    add_subdirectory(${preloader_android_SOURCE_DIR} ${preloader_android_BINARY_DIR})
+endif()
+
+target_link_libraries(preloader PUBLIC fmt::fmt)
 
 FetchContent_Declare(zydis
     GIT_REPOSITORY https://github.com/zyantific/zydis.git)
@@ -32,9 +50,8 @@ FetchContent_Declare(glm
     GIT_TAG 0.9.9.8)
 
 FetchContent_MakeAvailable(
-    libhat
-    safetyhook
     zydis
+    preloader
     properties-parser
     glm
 )
@@ -46,9 +63,6 @@ add_library(shulke SHARED
     src/ui/minecraftuirendercontext.cpp
     src/ui/nineslicehelper.cpp
     src/shulkerenderer/shulkerrenderer.cpp
-    src/util/keybinds.cpp
-    src/util/config.cpp
-    src/util/modmenu.cpp
     src/util/scache.cpp
 )
 
@@ -58,9 +72,10 @@ target_include_directories(shulke PUBLIC
 
 target_link_libraries(shulke PUBLIC
     glm::glm
-    libhat::libhat
+    log
+    android
+    preloader
     properties-parser
-    safetyhook::safetyhook
     Zydis::Zydis
 )
 
