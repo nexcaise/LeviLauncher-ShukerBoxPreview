@@ -16,6 +16,7 @@
 #include <cstdio>
 #include <unistd.h>
 #include <sys/mman.h>
+#include <pl/Signature.h>
 //#include "api/Log.hpp"
 //#include "util/config.h"
 //#include "util/modmenu.h"

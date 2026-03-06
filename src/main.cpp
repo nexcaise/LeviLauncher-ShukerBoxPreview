@@ -9,7 +9,7 @@
 BaseActorRenderContext_ctor_t BaseActorRenderContext_ctor = nullptr;
 ItemRenderer_renderGuiItemNew_t ItemRenderer_renderGuiItemNew = nullptr;
 
-uintpt scan(const char* sig) {
+uintptr_t scan(const char* sig) {
     uintptr_t addr = pl::signature::pl_resolve_signature(sig, "libminecraftpe.so");
     return addr;
 }
