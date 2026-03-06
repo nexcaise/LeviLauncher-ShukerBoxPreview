@@ -32,10 +32,4 @@ void Main() {
         (void*)HoverRenderer_renderHoverBox_hook,
         (void**)&HoverRenderer_renderHoverBox_orig
     );
-    VHOOK(
-        "15UIRenderContext",
-        6,
-        (void*)MinecraftUIRenderContext_drawText_hook,
-        (void**)&MinecraftUIRenderContext_drawText_orig
-    );
 }
