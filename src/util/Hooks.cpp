@@ -2,6 +2,11 @@
 
 uintptr_t scan(const char* sig) {
     uintptr_t addr = pl::signature::pl_resolve_signature(sig, "libminecraftpe.so");
+    if(!addr) {
+        Log::Error("Signature not found: {}", sig);
+    } else {
+        Log::Info("Signature found: {}", sig);
+    }
     return addr;
 }
 
@@ -24,7 +29,7 @@ bool VHOOK(
     }
 
     if (!libBase) {
-        Log::Error("VHOOK: !libBase");
+        Log::Error("VHOOK: !libBase - {}", typeinfoName);
         return false;
     }
 
@@ -50,7 +55,7 @@ bool VHOOK(
     }
 
     if (!typeinfoNameAddr) {
-        Log::Error("VHOOK: !typeinfoNameAddr");
+        Log::Error("VHOOK: !typeinfoNameAddr - {}", typeinfoName);
         return false;
     }
 
@@ -73,7 +78,7 @@ bool VHOOK(
     }
 
     if (!typeinfoAddr) {
-        Log::Error("VHOOK: !typeinfoAddr");
+        Log::Error("VHOOK: !typeinfoAddr - {}", typeinfoName);
         return false;
     }
 
@@ -96,7 +101,7 @@ bool VHOOK(
     }
 
     if (!vtableAddr) {
-        Log::Error("VHOOK: !vtableAddr");
+        Log::Error("VHOOK: !vtableAddr - {}", typeinfoName);
         return false;
     }
 
@@ -108,7 +113,7 @@ bool VHOOK(
     *slot = (uintptr_t)hook;
     mprotect((void*)page, 4096, PROT_READ);
 
-    Log::Info("VHOOK: succes!");
+    Log::Info("VHOOK: succes! - {}", typeinfoName);
     return true;
 }
 
@@ -119,7 +124,7 @@ bool HOOK(
 ) {
     uintptr_t addr = pl::signature::pl_resolve_signature(sig, "libminecraftpe.so");
     if (!addr) {
-        Log::Error("HOOK failed: signature not found");
+        Log::Error("HOOK failed: signature not found = {}", sig);
         return false;
     }
 
@@ -129,6 +134,6 @@ bool HOOK(
         return false;
     }
 
-    Log::Info("HOOK: success!");
+    Log::Info("HOOK: success! = ret = {}, sig = {}", ret, sig);
     return true;
 }

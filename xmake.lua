@@ -41,6 +41,7 @@ add_ldflags(
 add_repositories("xmake-repo https://github.com/xmake-io/xmake-repo.git")
 add_repositories("levimc-repo https://github.com/LiteLDev/xmake-repo.git")
 
+add_requires("fmt")
 add_requires("glm")
 add_requires("preloader_android 0.1.13")
 
@@ -49,5 +50,5 @@ target("ShulkerboxPreview")
     add_files("src/**.cpp")
     add_headerfiles("src/**.hpp")
     add_includedirs("src", {public = true})
-    add_packages("preloader_android", "glm")
+    add_packages("preloader_android", "glm", "fmt")
     add_links("log")
