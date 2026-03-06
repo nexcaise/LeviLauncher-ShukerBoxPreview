@@ -4,13 +4,13 @@
 //#include "util/keybinds.h"
 #include <string>
 
-//static bool sPreviewEnabled = false;
-//static bool sWasToggleKeyDown = false;
-/*
+static bool sPreviewEnabled = false;
+static bool sWasToggleKeyDown = false;
+
 using RenderHoverBoxFn = void (*)(void*, MinecraftUIRenderContext*, void*, void*, float);
 
 inline RenderHoverBoxFn HoverRenderer_renderHoverBox_orig = nullptr;
-*/
+
 static inline int hex(char c) {
     if (c >= '0' && c <= '9') return c - '0';
     if (c >= 'a' && c <= 'f') return c - 'a' + 10;
@@ -26,14 +26,15 @@ inline void HoverRenderer_renderHoverBox_hook(
 {
     HoverRenderer* self = reinterpret_cast<HoverRenderer*>(selfPtr);
 
-    //HoverRenderer_renderHoverBox_orig(selfPtr, ctx, client, aabb, someFloat);
+    HoverRenderer_renderHoverBox_orig(selfPtr, ctx, client, aabb, someFloat);
 
     if (!ctx){
         //sWasToggleKeyDown = false;
         return;
     }
-/*
+
     //toggle prev key
+    /*
     if (!spKeyDown && sWasToggleKeyDown)
         sPreviewEnabled = !sPreviewEnabled;
     sWasToggleKeyDown = spKeyDown;

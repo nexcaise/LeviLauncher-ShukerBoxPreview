@@ -3,12 +3,9 @@
 #include <android/log.h>
 #include <format>
 #include <string>
-#include <fstream>
-#include <filesystem>
-#include <mutex>
 
 #ifndef LOG_TAG
-#define LOG_TAG "InGamePackChanger"
+#define LOG_TAG "ShulkerboxPreview"
 #endif
 
 class Log {
@@ -34,22 +31,9 @@ public:
     }
 
 private:
-    static inline std::mutex mtx;
-    static constexpr const char* logPath = "/storage/emulated/0/games/vinlog/log.txt";
-
     template<typename... Args>
     static void Print(int prio, std::format_string<Args...> fmt, Args&&... args) {
         std::string message = std::format(fmt, std::forward<Args>(args)...);
-
         __android_log_print(prio, LOG_TAG, "%s", message.c_str());
-
-        std::lock_guard<std::mutex> lock(mtx);
-
-        std::filesystem::create_directories("/storage/emulated/0/games/vinlog");
-
-        std::ofstream file(logPath, std::ios::app);
-        if (file.is_open()) {
-            file << message << std::endl;
-        }
     }
 };

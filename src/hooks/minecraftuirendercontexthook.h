@@ -14,7 +14,7 @@ namespace ui { enum class TextAlignment : uint8_t; }
 // live UI context + font for this frame
 inline MinecraftUIRenderContext* ActiveUIContext = nullptr;
 inline Font* ActiveUIFont = nullptr;
-/*
+
 using MinecraftUIRenderContext_drawText_t = void(*)(
         MinecraftUIRenderContext*,
         Font&,
@@ -27,7 +27,7 @@ using MinecraftUIRenderContext_drawText_t = void(*)(
         const CaretMeasureData&);
 
 inline MinecraftUIRenderContext_drawText_t MinecraftUIRenderContext_drawText_orig = nullptr;
-*/
+
 inline void MinecraftUIRenderContext_drawText_hook(
     MinecraftUIRenderContext* self,
     Font& font,
@@ -42,8 +42,8 @@ inline void MinecraftUIRenderContext_drawText_hook(
     ActiveUIContext = self;
     ActiveUIFont   = &font;
 
-    /*MinecraftUIRenderContext_drawText_orig(
+    MinecraftUIRenderContext_drawText_orig(
         self, font, rect, text, color, align, alpha, tmd, cmd
-    );*/
+    );
 }
 //this is basically stealing the drawtext
