@@ -9,6 +9,13 @@
 #include "item/itemstackbase.h"
 #include "nbt/nbt.h"
 #include "render/helper.h"
-#include "api/Log.hpp"
+#include <cstdint>
+#include <fstream>
+#include <string>
+#include <cstring>
+#include <cstdio>
+#include <unistd.h>
+#include <sys/mman.h>
+//#include "api/Log.hpp"
 //#include "util/config.h"
 //#include "util/modmenu.h"
