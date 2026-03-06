@@ -8,7 +8,7 @@
 #include <mutex>
 
 #ifndef LOG_TAG
-#define LOG_TAG "ShulkerboxPreview"
+#define LOG_TAG "InGamePackChanger"
 #endif
 
 class Log {
@@ -35,7 +35,7 @@ public:
 
 private:
     static inline std::mutex mtx;
-    static constexpr const char* logPath = "/storage/emulated/0/games/igm/log.txt";
+    static constexpr const char* logPath = "/storage/emulated/0/games/vinlog/log.txt";
 
     template<typename... Args>
     static void Print(int prio, std::format_string<Args...> fmt, Args&&... args) {
@@ -45,7 +45,7 @@ private:
 
         std::lock_guard<std::mutex> lock(mtx);
 
-        std::filesystem::create_directories("/storage/emulated/0/games/igm");
+        std::filesystem::create_directories("/storage/emulated/0/games/vinlog");
 
         std::ofstream file(logPath, std::ios::app);
         if (file.is_open()) {

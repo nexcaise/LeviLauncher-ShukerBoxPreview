@@ -9,5 +9,6 @@
 #include "item/itemstackbase.h"
 #include "nbt/nbt.h"
 #include "render/helper.h"
+#include "api/Log.hpp"
 //#include "util/config.h"
 //#include "util/modmenu.h"

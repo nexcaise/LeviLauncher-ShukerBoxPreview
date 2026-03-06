@@ -9,7 +9,7 @@
 BaseActorRenderContext_ctor_t BaseActorRenderContext_ctor = nullptr;
 ItemRenderer_renderGuiItemNew_t ItemRenderer_renderGuiItemNew = nullptr;
 
-LL_VTABLE_HOOK(
+SKY_VTABLE_HOOK(
     ShulkerBoxBlockItem_appendFormattedHovertext,
     "19ShulkerBoxBlockItem",
     55,
@@ -20,11 +20,13 @@ LL_VTABLE_HOOK(
     std::string& out,
     bool flag
 ) {
+    Log::Info("Before ShulkerBoxBlockItem origin called");
     origin(self, stack, level, out, flag);
+    Log::Info("After ShulkerBoxBlockItem origin called");
     ShulkerBoxBlockItem_appendFormattedHovertext_hook(self, stack, level, out, flag);
 }
 
-LL_VTABLE_HOOK(
+SKY_VTABLE_HOOK(
     HoverRenderer_renderHoverBox,
     "17HoverTextRenderer",
     17,
@@ -35,11 +37,13 @@ LL_VTABLE_HOOK(
     void* aabb,
     float someFloat
 ) {
+    Log::Info("Before HoverRender origin called");
     origin(selfPtr, ctx, client, aabb, someFloat);
+    Log::Info("After HoverRender origin called");
     HoverRenderer_renderHoverBox_hook(selfPtr, ctx, client, aabb, someFloat);
 }
 
-LL_VTABLE_HOOK(
+SKY_VTABLE_HOOK(
     MinecraftUIRenderContext_drawText,
     "24MinecraftUIRenderContext",
     6,
@@ -54,8 +58,11 @@ LL_VTABLE_HOOK(
     const TextMeasureData& tmd,
     const CaretMeasureData& cmd
 ) {
+    Log::Info("Before MCUIRC hook called");
     MinecraftUIRenderContext_drawText_hook(self, font, rect, text, color, align, alpha, tmd, cmd);
+    Log::Info("After mcuirc hook & Before Origin called");
     origin(self, font, rect, text, color, align, alpha, tmd, cmd);
+    Log::Info("After Origin mcuirc called");
 }
 
 void Init() {

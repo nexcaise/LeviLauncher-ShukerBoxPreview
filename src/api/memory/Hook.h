@@ -12,7 +12,7 @@
 
 #define LOG(...)
 
-namespace LL_vhook {
+namespace sky_vhook {
 
     struct MapRegion {
         uintptr_t start;
@@ -251,25 +251,25 @@ template <typename T> struct HookAutoRegister {
   REGISTER;                                                                    \
   RET_TYPE DEF_TYPE::detour(__VA_ARGS__)
 
-#define LL_AUTO_REG_HOOK_IMPL(FUNC_PTR, STATIC, CALL, DEF_TYPE, ...)          \
+#define SKY_AUTO_REG_HOOK_IMPL(FUNC_PTR, STATIC, CALL, DEF_TYPE, ...)          \
   VA_EXPAND(HOOK_IMPL(                                                         \
       inline memory::HookAutoRegister<DEF_TYPE> DEF_TYPE##AutoRegister,        \
       FUNC_PTR, STATIC, CALL, DEF_TYPE, __VA_ARGS__))
 
-#define LL_MANUAL_REG_HOOK_IMPL(...) VA_EXPAND(HOOK_IMPL(, __VA_ARGS__))
+#define SKY_MANUAL_REG_HOOK_IMPL(...) VA_EXPAND(HOOK_IMPL(, __VA_ARGS__))
 
-#define LL_STATIC_HOOK_IMPL(...)                                              \
-  VA_EXPAND(LL_MANUAL_REG_HOOK_IMPL((*), static, originFunc, __VA_ARGS__))
+#define SKY_STATIC_HOOK_IMPL(...)                                              \
+  VA_EXPAND(SKY_MANUAL_REG_HOOK_IMPL((*), static, originFunc, __VA_ARGS__))
 
-#define LL_AUTO_STATIC_HOOK_IMPL(...)                                         \
-  VA_EXPAND(LL_AUTO_REG_HOOK_IMPL((*), static, originFunc, __VA_ARGS__))
+#define SKY_AUTO_STATIC_HOOK_IMPL(...)                                         \
+  VA_EXPAND(SKY_AUTO_REG_HOOK_IMPL((*), static, originFunc, __VA_ARGS__))
 
-#define LL_INSTANCE_HOOK_IMPL(DEF_TYPE, ...)                                  \
-  VA_EXPAND(LL_MANUAL_REG_HOOK_IMPL((DEF_TYPE::*), , (this->*originFunc),     \
+#define SKY_INSTANCE_HOOK_IMPL(DEF_TYPE, ...)                                  \
+  VA_EXPAND(SKY_MANUAL_REG_HOOK_IMPL((DEF_TYPE::*), , (this->*originFunc),     \
                                      DEF_TYPE, __VA_ARGS__))
 
-#define LL_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE, ...)                             \
-  VA_EXPAND(LL_AUTO_REG_HOOK_IMPL((DEF_TYPE::*), , (this->*originFunc),       \
+#define SKY_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE, ...)                             \
+  VA_EXPAND(SKY_AUTO_REG_HOOK_IMPL((DEF_TYPE::*), , (this->*originFunc),       \
                                    DEF_TYPE, __VA_ARGS__))
 
 /**
@@ -285,8 +285,8 @@ template <typename T> struct HookAutoRegister {
  * @note register or unregister by calling DefType::hook() and
  * DefType::unhook().
  */
-#define LL_TYPED_STATIC_HOOK(DefType, type, priority, identifier, Ret, ...)   \
-  VA_EXPAND(LL_STATIC_HOOK_IMPL(DefType,                                      \
+#define SKY_TYPED_STATIC_HOOK(DefType, type, priority, identifier, Ret, ...)   \
+  VA_EXPAND(SKY_STATIC_HOOK_IMPL(DefType,                                      \
                                  : public type, priority, identifier, Ret,     \
                                    __VA_ARGS__))
 
@@ -302,18 +302,18 @@ template <typename T> struct HookAutoRegister {
  * @note register or unregister by calling DefType::hook() and
  * DefType::unhook().
  */
-#define LL_STATIC_HOOK(DefType, priority, identifier, Ret, ...)               \
+#define SKY_STATIC_HOOK(DefType, priority, identifier, Ret, ...)               \
   VA_EXPAND(                                                                   \
-      LL_STATIC_HOOK_IMPL(DefType, , priority, identifier, Ret, __VA_ARGS__))
+      SKY_STATIC_HOOK_IMPL(DefType, , priority, identifier, Ret, __VA_ARGS__))
 
 /**
  * @brief Register a hook for a typed static function.
  * @details The hook will be automatically registered and unregistered.
  * @see TYPED_STATIC_HOOK for usage.
  */
-#define LL_AUTO_TYPED_STATIC_HOOK(DefType, type, priority, identifier, Ret,   \
+#define SKY_AUTO_TYPED_STATIC_HOOK(DefType, type, priority, identifier, Ret,   \
                                    ...)                                        \
-  VA_EXPAND(LL_AUTO_STATIC_HOOK_IMPL(DefType,                                 \
+  VA_EXPAND(SKY_AUTO_STATIC_HOOK_IMPL(DefType,                                 \
                                       : public type, priority, identifier,     \
                                         Ret, __VA_ARGS__))
 
@@ -322,8 +322,8 @@ template <typename T> struct HookAutoRegister {
  * @details The hook will be automatically registered and unregistered.
  * @see STATIC_HOOK for usage.
  */
-#define LL_AUTO_STATIC_HOOK(DefType, priority, identifier, Ret, ...)          \
-  VA_EXPAND(LL_AUTO_STATIC_HOOK_IMPL(DefType, , priority, identifier, Ret,    \
+#define SKY_AUTO_STATIC_HOOK(DefType, priority, identifier, Ret, ...)          \
+  VA_EXPAND(SKY_AUTO_STATIC_HOOK_IMPL(DefType, , priority, identifier, Ret,    \
                                       __VA_ARGS__))
 
 /**
@@ -339,8 +339,8 @@ template <typename T> struct HookAutoRegister {
  * @note register or unregister by calling DEF_TYPE::hook() and
  * DEF_TYPE::unhook().
  */
-#define LL_TYPED_HOOK(DEF_TYPE, PRIORITY, TYPE, IDENTIFIER, RET_TYPE, ...)    \
-  VA_EXPAND(LL_INSTANCE_HOOK_IMPL(DEF_TYPE,                                   \
+#define SKY_TYPED_HOOK(DEF_TYPE, PRIORITY, TYPE, IDENTIFIER, RET_TYPE, ...)    \
+  VA_EXPAND(SKY_INSTANCE_HOOK_IMPL(DEF_TYPE,                                   \
                                    : public TYPE, PRIORITY, IDENTIFIER,        \
                                      RET_TYPE, __VA_ARGS__))
 
@@ -356,8 +356,8 @@ template <typename T> struct HookAutoRegister {
  * @note register or unregister by calling DEF_TYPE::hook() and
  * DEF_TYPE::unhook().
  */
-#define LL_INSTANCE_HOOK(DEF_TYPE, PRIORITY, IDENTIFIER, RET_TYPE, ...)       \
-  VA_EXPAND(LL_INSTANCE_HOOK_IMPL(DEF_TYPE, , PRIORITY, IDENTIFIER, RET_TYPE, \
+#define SKY_INSTANCE_HOOK(DEF_TYPE, PRIORITY, IDENTIFIER, RET_TYPE, ...)       \
+  VA_EXPAND(SKY_INSTANCE_HOOK_IMPL(DEF_TYPE, , PRIORITY, IDENTIFIER, RET_TYPE, \
                                    __VA_ARGS__))
 
 /**
@@ -365,9 +365,9 @@ template <typename T> struct HookAutoRegister {
  * @details The hook will be automatically registered and unregistered.
  * @see TYPED_HOOK for usage.
  */
-#define LL_AUTO_TYPED_INSTANCE_HOOK(DEF_TYPE, PRIORITY, TYPE, IDENTIFIER,     \
+#define SKY_AUTO_TYPED_INSTANCE_HOOK(DEF_TYPE, PRIORITY, TYPE, IDENTIFIER,     \
                                      RET_TYPE, ...)                            \
-  VA_EXPAND(LL_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE,                              \
+  VA_EXPAND(SKY_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE,                              \
                                         : public TYPE, PRIORITY, IDENTIFIER,   \
                                           RET_TYPE, __VA_ARGS__))
 
@@ -376,17 +376,17 @@ template <typename T> struct HookAutoRegister {
  * @details The hook will be automatically registered and unregistered.
  * @see HOOK for usage.
  */
-#define LL_AUTO_INSTANCE_HOOK(DEF_TYPE, PRIORITY, IDENTIFIER, RET_TYPE, ...)  \
-  VA_EXPAND(LL_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE, , PRIORITY, IDENTIFIER,      \
+#define SKY_AUTO_INSTANCE_HOOK(DEF_TYPE, PRIORITY, IDENTIFIER, RET_TYPE, ...)  \
+  VA_EXPAND(SKY_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE, , PRIORITY, IDENTIFIER,      \
                                         RET_TYPE, __VA_ARGS__))
 
-#define LL_VTABLE_HOOK(NAME, TYPEINFO, INDEX, RET, ...)      \
+#define SKY_VTABLE_HOOK(NAME, TYPEINFO, INDEX, RET, ...)      \
     struct NAME {                                             \
         using FuncType = RET(*)(__VA_ARGS__);                  \
         static inline FuncType origin = nullptr;               \
         static RET impl(__VA_ARGS__);                          \
         static bool hook() {                                \
-            return LL_vhook::hook(                            \
+            return sky_vhook::hook(                            \
                 TYPEINFO,                                      \
                 INDEX,                                         \
                 (void*)&impl,                                  \
@@ -396,13 +396,13 @@ template <typename T> struct HookAutoRegister {
     };                                                         \
     RET NAME::impl(__VA_ARGS__)
 
-#define LL_AUTO_VTABLE_HOOK(NAME, TYPEINFO, INDEX, RET, ...) \
+#define SKY_AUTO_VTABLE_HOOK(NAME, TYPEINFO, INDEX, RET, ...) \
     using NAME##_t = RET(*)(__VA_ARGS__);                      \
     static NAME##_t NAME##_origin = nullptr;                   \
     static RET NAME##_impl(__VA_ARGS__);                       \
     struct NAME##_Auto {                                       \
         NAME##_Auto() {                                        \
-            LL_vhook::hook(                                   \
+            sky_vhook::hook(                                   \
                 TYPEINFO,                                      \
                 INDEX,                                         \
                 (void*)&NAME##_impl,                           \
